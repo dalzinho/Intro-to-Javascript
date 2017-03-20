@@ -49,7 +49,7 @@ var anObject = {};
 // Section 4
 
 // 4.1 Write a statement that writes "hello" to the console if it's true and "bye" if it is false
-
+10 * 10 === 100 ? console.log("hello") : console.log("bye");
 
 // Section 5
 

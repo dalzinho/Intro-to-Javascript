@@ -130,25 +130,40 @@ var accounts = [
 
 // Write functions for the following tasks!
 // 7.1 Calculate the total cash in accounts
+
+// var totalCash = function(accounts){
+// var total = 0;
+// for (var obj of accounts){
+//   total += obj.amount;
+// }
+// return total;
+// }
+
 var totalCash = function(accounts){
-var total = 0;
-for (var obj of accounts){
-  total += obj.amount;
+  return accounts.map(function(account){
+    return account.amount;
+  }).reduce(function(acc, val){
+    return acc += val;
+  })
 }
-return total;
-}
+
+
+
+
 console.log(totalCash(accounts));
 
 // 7.2 Find the amount of money in the account with the largest balance
-var highestBalance = function(accounts){
-var highest = 0;
-for(var obj of accounts){
-  if(obj.amount > highest){
-    highest = obj.amount;
-  }
-}
-return highest;
-}
+// var highestBalance = function(accounts){
+// var highest = 0;
+// for(var obj of accounts){
+//   if(obj.amount > highest){
+//     highest = obj.amount;
+//   }
+// }
+// return highest;
+// }
+
+
 
 console.log(highestBalance(accounts));
 
@@ -171,7 +186,7 @@ console.log(poorestIndividual(accounts));
 // 7.4 Calculate the average bank account value
 
 var averageBalance = function(accounts){
-  return totalCash(accounts) / accounts.length;
+  return (totalCash(accounts) / accounts.length).toFixed(2);
 }
 
 console.log(averageBalance(accounts));

@@ -106,82 +106,73 @@ for(var veg of someVegetables){
 // Section 7
 
 var accounts = [
-  { name: 'jay',
-    amount: 125.50,
-    type: 'personal'
-  },
-  { name: 'val',
-    amount: 55125.10,
-    type: 'business'
-  },
-  { name: 'marc',
-    amount: 400.00,
-    type: 'personal'
-  },
-  { name: 'keith',
-    amount: 220.25,
-    type: 'business'
-  },
-  { name: 'rick',
-    amount: 1.00,
-    type: 'personal'
-  },
+{ name: 'jay',
+amount: 125.50,
+type: 'personal'
+},
+{ name: 'val',
+amount: 55125.10,
+type: 'business'
+},
+{ name: 'marc',
+amount: 400.00,
+type: 'personal'
+},
+{ name: 'keith',
+amount: 220.25,
+type: 'business'
+},
+{ name: 'rick',
+amount: 1.00,
+type: 'personal'
+},
 ];
 
 // Write functions for the following tasks!
 // 7.1 Calculate the total cash in accounts
 
-// var totalCash = function(accounts){
-// var total = 0;
-// for (var obj of accounts){
-//   total += obj.amount;
-// }
-// return total;
-// }
-
-var totalCash = function(accounts){
+var mapAmounts = function(accounts){
   return accounts.map(function(account){
     return account.amount;
-  }).reduce(function(acc, val){
+  });
+}
+
+var totalCash = function(accounts){
+  return mapAmounts(accounts).reduce(function(acc, val){
     return acc += val;
   })
 }
 
-
-
-
-console.log(totalCash(accounts));
+console.log("totalCash:", totalCash(accounts));
 
 // 7.2 Find the amount of money in the account with the largest balance
-// var highestBalance = function(accounts){
-// var highest = 0;
-// for(var obj of accounts){
-//   if(obj.amount > highest){
-//     highest = obj.amount;
-//   }
-// }
-// return highest;
-// }
 
-
-
-console.log(highestBalance(accounts));
-
-// 7.3 Find the name of the account with the smallest balance
-var poorestIndividual = function(accounts){
-  var pauperName = "";
-  var pauperBalance = highestBalance(accounts);
-
-  for (var obj of accounts){
-    if(obj.amount < pauperBalance){
-      pauperBalance = obj.amount;
-      pauperName = obj.name;
-    }
-  }
-  return pauperName;
+var highestBalance = function(accounts){
+  return mapAmounts(accounts).reduce(function(a,b){
+    return Math.max(a,b);
+  });
 }
 
-console.log(poorestIndividual(accounts));
+
+
+console.log("highestBalance:",highestBalance(accounts));
+
+// 7.3 Find the name of the account with the smallest balance
+
+var lowestBalance = function(accounts){
+  return mapAmounts(accounts).reduce(function(a,b){
+    return Math.min(a,b);
+  });
+}
+
+var poorestIndividual = function(accounts){
+
+  return accounts.find(function(account){
+    return account.amount === lowestBalance(accounts);
+  }).name;
+}
+
+console.log("7.3; Poorest:", poorestIndividual(accounts));
 
 // 7.4 Calculate the average bank account value
 
@@ -189,66 +180,49 @@ var averageBalance = function(accounts){
   return (totalCash(accounts) / accounts.length).toFixed(2);
 }
 
-console.log(averageBalance(accounts));
+console.log('7.4; average balance', averageBalance(accounts));
 
 // 7.5 Find the value of marcs bank account
 
-var marcsBalance = function(accounts){
-  for (var obj of accounts){
-    if (obj.name === 'marc'){
-      return obj.amount;
-    } 
-  }
+var findAccountByName = function(accounts, searchName){
+  return accounts.find(function(account){
+    return account.name === searchName;
+  });
 }
 
-console.log(marcsBalance(accounts));
+console.log("7.5; Marc's Balance:", findAccountByName(accounts, 'marc').amount);
 
 // 7.6 Find the holder of the largest bank account
 var richestIndividual = function(accounts){
-  bourgeoisName = "";
-  bourgeoisBalance = 0;
-  for (var obj of accounts){
-    if(obj.amount > bourgeoisBalance){
-      bourgeoisBalance = obj.amount;
-      bourgeoisName = obj.name;
-    }
-  }
-  return bourgeoisName;
+  return accounts.find(function(account){
+    return account.amount === highestBalance(accounts);
+  }).name;
 }
 
-console.log(richestIndividual(accounts));
+console.log('7.6; richest person:', richestIndividual(accounts));
 
 // 7.7 Calculate the total cash in business accounts
-var totalBusinessCash = function(accounts){
-  cash = 0;
-  for(var obj of accounts){
-    if(obj.type === 'business'){
-      cash += obj.amount;
-    }
-  }
-  return cash;
+
+var filterAccounts = function(accounts, type){
+  return accounts.filter(function(account){
+    return account.type === type;
+  });
 }
 
-console.log(totalBusinessCash(accounts));
+
+var totalBusinessCash = function(accounts){
+  return totalCash(filterAccounts(accounts, 'business'));
+}
+
+console.log('7.7; total in business accounts:', totalBusinessCash(accounts));
 
 // 7.8 Find the largest personal account owner
 
 var largestPersonalAccountHolder = function(accounts){
-  cash = null;
-  name = "";
-
-  for(var obj of accounts){
-    if(obj.type === 'personal'){   
-      if(obj.amount > cash){
-        cash = obj.amount;
-        name = obj.name;
-      }
-    }
-  }
-  return name;
+  return richestIndividual(filterAccounts(accounts, 'personal'));
 }
 
-console.log(largestPersonalAccountHolder(accounts));
+console.log('7.8; largest personal account:',largestPersonalAccountHolder(accounts));
 
 // Section 8
 
